@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
-
-require __DIR__ . '/includes/auth.php';
-
-header('Location: ' . (is_logged_in() ? 'dashboard.php' : 'login.php'));
-exit;
+require __DIR__ . '/../config/db.php'; require __DIR__ . '/../includes/layout.php'; require_role('administrator');
+$error = ''; if ($_SERVER['REQUEST_METHOD'] === 'POST') { verify_csrf((string) ($_POST['csrf_token'] ?? '')); $name = trim((string) ($_POST['name'] ?? '')); if ($name === '') { $error = 'Department name is required.'; } else { try { $statement = $pdo->prepare('INSERT INTO departments (name, description) VALUES (:name, :description)'); $statement->execute(['name' => $name, 'description' => trim((string) ($_POST['description'] ?? ''))]); } catch (PDOException $exception) { $error = 'That department already exists.'; } } }
+$departments = $pdo->query('SELECT departments.*, COUNT(users.id) AS user_count FROM departments LEFT JOIN users ON users.department_id = departments.id GROUP BY departments.id ORDER BY departments.name'); page_header('Departments');
+?>
+<div class="row g-4"><div class="col-lg-7"><section class="panel"><div class="panel-heading"><div><p class="eyebrow mb-1">Administration</p><h2 class="h4">Departments</h2></div></div><div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Description</th><th>People</th></tr></thead><tbody><?php foreach ($departments as $department): ?><tr><td><strong><?= e($department['name']) ?></strong></td><td><?= e($department['description']) ?></td><td><?= (int) $department['user_count'] ?></td></tr><?php endforeach; ?></tbody></table></div></section></div><div class="col-lg-5"><section class="panel"><h2 class="h5">Add department</h2><?php if ($error): ?><div class="alert alert-danger"><?= e($error) ?></div><?php endif; ?><form method="post"><input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>"><label class="form-label">Name</label><input class="form-control mb-3" name="name" required><label class="form-label">Description</label><textarea class="form-control mb-3" name="description" rows="4"></textarea><button class="btn btn-primary">Add department</button></form></section></div></div>
+<?php page_footer(); ?>
