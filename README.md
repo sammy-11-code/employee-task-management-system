@@ -1,22 +1,33 @@
-# Employee Task Management System
+Employee Task Management System
 
-ETMS is a PHP 8 and MySQL 8 task coordination application for administrators, managers, and employees. It includes:
+A web-based Employee Task Management System developed using PHP and MySQL. The system is designed to help organizations manage employees, departments, and assigned tasks through a centralized platform.
 
-- Session authentication with inactivity timeout, password hashing, CSRF tokens, and role authorization.
-- Role-aware dashboards and task queues.
-- Manager task creation, employee assignment, status updates, task detail views, and comments.
-- Administrator user activation, user creation, department management, and task CSV reports.
-- A normalized MySQL schema for tasks, comments, files, notifications, audit logs, password resets, settings, reports, and sessions.
+Features
 
-## XAMPP setup
+- User authentication and login
+- Employee dashboard
+- Task management
+- Employee profile management
+- Department-based organization
+- Password recovery
+- Database-driven information management
 
-1. Start Apache and MySQL in the XAMPP Control Panel.
-2. Import [`databases/schema.sql`](databases/schema.sql) in phpMyAdmin, or run it with the MySQL client.
-3. Confirm the defaults in [`config/db.php`](config/db.php), or set `ETMS_DB_HOST`, `ETMS_DB_NAME`, `ETMS_DB_USER`, and `ETMS_DB_PASSWORD` in the Apache environment.
-4. Create the first administrator from the project root:
+Technologies Used
 
-   `C:\xampp\php\php.exe databases\seed_admin.php admin@example.com StrongPass1`
+- PHP
+- MySQL
+- HTML5
+- CSS3
+- XAMPP
+- JavaScript
 
-5. Open `http://localhost/tms/`.
+Project Purpose
 
-The database connection uses PDO native prepared statements. Upload storage should be configured outside the public web root before enabling file attachments; the schema is ready for that module.
+The system was developed as an academic ICT project to demonstrate practical knowledge of web development, database management, authentication, and software engineering principles.
+
+Author
+
+Sammy Muriungi
+
+Diploma in Information and Communication Technology
+Daystar University — Kenya
